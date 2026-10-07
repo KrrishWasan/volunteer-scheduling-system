@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${title} + ' | Volunteer Scheduling System'">VSS</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:fragment="header">
+    <div>
+        <a class="brand" th:href="@{/}">Volunteer Scheduling System</a>
+        <span class="env-badge" id="env-badge" th:text="${@appInfo.env}">dev</span>
+    </div>
+    <nav>
+        <a id="nav-home" th:href="@{/}">Home</a>
+    </nav>
+</header>
+
+<footer th:fragment="footer">
+    Volunteer Scheduling System &middot; v<span th:text="${@appInfo.version}">1.0.0</span>
+    &middot; environment: <span th:text="${@appInfo.env}">dev</span>
+</footer>
+</body>
+</html>

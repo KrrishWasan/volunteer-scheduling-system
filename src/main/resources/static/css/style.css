@@ -1,0 +1,30 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: "Segoe UI", Roboto, Arial, sans-serif; background: #f4f6fb; color: #1f2937; }
+header { background: #1e3a8a; color: #fff; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+header .brand { font-size: 20px; font-weight: 600; color: #fff; text-decoration: none; }
+nav a { color: #dbeafe; margin-left: 18px; text-decoration: none; font-weight: 500; }
+nav a:hover { color: #fff; text-decoration: underline; }
+.env-badge { background: #f59e0b; color: #111; border-radius: 10px; padding: 2px 10px; font-size: 12px; margin-left: 10px; }
+main { max-width: 1050px; margin: 28px auto; padding: 0 20px; }
+.card { background: #fff; border-radius: 10px; padding: 22px 26px; box-shadow: 0 1px 4px rgba(0,0,0,.08); margin-bottom: 20px; }
+h1 { margin-top: 0; color: #1e3a8a; }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 10px; border-bottom: 1px solid #e5e7eb; }
+th { background: #eef2ff; }
+label { display: block; font-weight: 600; margin: 12px 0 4px; }
+input, select, textarea { width: 100%; padding: 9px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; }
+.btn { display: inline-block; background: #2563eb; color: #fff; border: 0; padding: 9px 16px; border-radius: 6px; cursor: pointer; text-decoration: none; font-size: 14px; }
+.btn:hover { background: #1d4ed8; }
+.btn-success { background: #16a34a; } .btn-success:hover { background: #15803d; }
+.btn-danger { background: #dc2626; } .btn-danger:hover { background: #b91c1c; }
+.btn[disabled] { background: #9ca3af; cursor: not-allowed; }
+.alert { padding: 12px 16px; border-radius: 6px; margin-bottom: 16px; }
+.alert-success { background: #dcfce7; color: #14532d; }
+.alert-error { background: #fee2e2; color: #7f1d1d; }
+.status { padding: 3px 10px; border-radius: 10px; font-size: 12px; font-weight: 700; }
+.status-PENDING { background: #fef3c7; color: #92400e; }
+.status-CONFIRMED { background: #dcfce7; color: #166534; }
+.status-CANCELLED { background: #fee2e2; color: #991b1b; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.inline { display: inline; }
+footer { text-align: center; color: #6b7280; font-size: 13px; padding: 20px; }

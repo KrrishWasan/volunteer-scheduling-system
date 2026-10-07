@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Home')}"></head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+<main>
+    <div class="card">
+        <h1 id="page-title">Volunteer Scheduling System</h1>
+        <p>Register as a volunteer, browse open shifts, request a slot and track the status of your booking.
+            Coordinators confirm or cancel requests from the coordinator dashboard.</p>
+    </div>
+</main>
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>
