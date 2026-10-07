@@ -28,6 +28,10 @@ data/
 
 # Test artefacts
 screenshots/
+target/screenshots/
+
+# Local Selenium driver binaries (one-time setup, see docs/week09-selenium.md)
+drivers/
 
 # Secrets
 .env

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head}"></head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+<main>
+    <div class="card">
+        <h1 id="page-title">Track booking status</h1>
+        <div th:if="${success}" id="success-box" class="alert alert-success" th:text="${success}"></div>
+        <div th:if="${error}" id="error-box" class="alert alert-error" th:text="${error}"></div>
+        <form id="status-form" th:action="@{/status}" method="get">
+            <label for="ref">Booking reference (e.g. VSS-ABC123)</label>
+            <input id="ref" type="text" name="ref" th:value="${ref}" placeholder="VSS-XXXXXX">
+            <p><button id="btn-track-ref" class="btn" type="submit">Track by reference</button></p>
+        </form>
+        <form id="status-email-form" th:action="@{/status}" method="get">
+            <label for="email">Or list all bookings for your e-mail</label>
+            <input id="email" type="email" name="email" th:value="${email}" placeholder="you@example.com">
+            <p><button id="btn-track-email" class="btn" type="submit">Track by e-mail</button></p>
+        </form>
+    </div>
+    <div class="card" th:if="${bookings != null}">
+        <h2>Results</h2>
+        <p th:if="${#lists.isEmpty(bookings)}">No bookings found.</p>
+        <table th:unless="${#lists.isEmpty(bookings)}" id="bookings-table">
+            <thead><tr><th>Reference</th><th>Volunteer</th><th>Slot</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+            <tr th:each="b : ${bookings}">
+                <td class="booking-ref" th:text="${b.reference}">VSS-XXXXXX</td>
+                <td th:text="${b.volunteer.fullName} + ' (' + ${b.volunteer.email} + ')'">Name</td>
+                <td th:text="${b.slot.title} + ' @ ' + ${b.slot.slotDate}">Slot</td>
+                <td><span class="status" th:classappend="'status-' + ${b.status}" th:text="${b.status}">PENDING</span></td>
+                <td>
+                    <form class="inline" th:if="${b.status.name() != 'CANCELLED'}"
+                          th:action="@{'/bookings/' + ${b.reference} + '/cancel'}" method="post">
+                        <button class="btn btn-danger btn-cancel" type="submit">Cancel</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>
+

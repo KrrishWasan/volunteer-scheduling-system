@@ -1,0 +1,51 @@
+---
+# Week 14 – rollback / recovery to a previous stable release.
+# Usage: ansible-playbook -i inventory.ini rollback.yml -e "app_version=1.0.0"
+
+- name: Roll back VSS to a previous stable release
+  hosts: vss
+  become: true
+
+  vars:
+    app_name: vss
+    app_version: "{{ app_version | default('1.0.0') }}"
+    image_name: "krrishwasan/volunteer-scheduling-system"
+    app_port: 8080
+
+  tasks:
+    - name: Stop current container
+      community.docker.docker_container:
+        name: "{{ app_name }}"
+        state: absent
+
+    - name: Start previous stable image
+      community.docker.docker_container:
+        name: "{{ app_name }}"
+        image: "{{ image_name }}:{{ app_version }}"
+        state: started
+        restart_policy: unless-stopped
+        ports:
+          - "{{ app_port }}:8080"
+        env_file: /opt/vss/vss.env
+        volumes:
+          - /opt/vss/data:/data
+
+    - name: Verify rollback via health check
+      ansible.builtin.uri:
+        url: "http://localhost:{{ app_port }}/actuator/health"
+        status_code: 200
+        return_content: true
+      register: health
+      until: health.json.status == "UP"
+      retries: 12
+      delay: 10
+
+    - name: Report deployed version
+      ansible.builtin.uri:
+        url: "http://localhost:{{ app_port }}/api/version"
+        return_content: true
+      register: version
+
+    - name: Show version
+      ansible.builtin.debug:
+        msg: "Rolled back successfully: {{ version.json }}"

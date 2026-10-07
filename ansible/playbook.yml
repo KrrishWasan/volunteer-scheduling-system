@@ -1,0 +1,127 @@
+---
+# Volunteer Scheduling System – configuration management (Week 13).
+# Installs server prerequisites (packages, user, folders) and deploys the
+# versioned Docker container. Fully idempotent: re-running changes nothing.
+#
+# Usage:
+#   ansible-playbook -i inventory.ini playbook.yml
+#   ansible-playbook -i inventory.ini playbook.yml -e "app_env=prod app_version=1.0.0"
+#   ansible-playbook -i inventory.ini rollback.yml -e "app_version=1.0.0"   # Week 14
+
+- name: Provision VSS target node
+  hosts: vss
+  become: true
+
+  vars:
+    app_name: vss
+    app_env: "{{ app_env | default('prod') }}"
+    app_version: "{{ app_version | default('1.0.0') }}"
+    image_name: "krrishwasan/volunteer-scheduling-system"
+    app_port: 8080
+    app_user: vss
+    data_dir: /opt/vss/data
+
+  tasks:
+    # ---- 1. Packages ----
+    - name: Install prerequisites (Java, curl)
+      ansible.builtin.apt:
+        name:
+          - openjdk-17-jre-headless
+          - curl
+        state: present
+        update_cache: true
+        cache_valid_time: 3600
+
+    - name: Install Docker engine
+      ansible.builtin.apt:
+        name: docker.io
+        state: present
+
+    - name: Ensure Docker service is running
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: true
+
+    # ---- 2. Users ----
+    - name: Create application user
+      ansible.builtin.user:
+        name: "{{ app_user }}"
+        system: true
+        shell: /usr/sbin/nologin
+        create_home: false
+
+    - name: Allow app user to run Docker
+      ansible.builtin.user:
+        name: "{{ app_user }}"
+        groups: docker
+        append: true
+
+    # ---- 3. Folders / files ----
+    - name: Create data directory
+      ansible.builtin.file:
+        path: "{{ data_dir }}"
+        state: directory
+        owner: "{{ app_user }}"
+        group: docker
+        mode: "0775"
+
+    - name: Install environment file
+      ansible.builtin.copy:
+        dest: /opt/vss/vss.env
+        owner: root
+        group: root
+        mode: "0644"
+        content: |
+          APP_ENV={{ app_env }}
+          APP_VERSION={{ app_version }}
+          PORT=8080
+          DB_URL=jdbc:h2:file:/data/vss;DB_CLOSE_DELAY=-1;AUTO_SERVER=FALSE
+          SEED_DATA=true
+      notify: Restart vss container
+
+    # ---- 4. Services: deploy the versioned container ----
+    - name: Pull versioned application image
+      community.docker.docker_image:
+        name: "{{ image_name }}:{{ app_version }}"
+        source: pull
+
+    - name: Run application container
+      community.docker.docker_container:
+        name: "{{ app_name }}"
+        image: "{{ image_name }}:{{ app_version }}"
+        state: started
+        restart_policy: unless-stopped
+        ports:
+          - "{{ app_port }}:8080"
+        env_file: /opt/vss/vss.env
+        volumes:
+          - "{{ data_dir }}:/data"
+      notify: Wait for healthy app
+
+    # ---- 5. Health check (Week 14 reliability validation) ----
+    - name: Wait for health endpoint to report UP
+      ansible.builtin.uri:
+        url: "http://localhost:{{ app_port }}/actuator/health"
+        status_code: 200
+        return_content: true
+      register: health
+      until: health.json.status == "UP"
+      retries: 12
+      delay: 10
+
+  handlers:
+    - name: Restart vss container
+      community.docker.docker_container:
+        name: "{{ app_name }}"
+        state: started
+        restart: true
+
+    - name: Wait for healthy app
+      ansible.builtin.uri:
+        url: "http://localhost:{{ app_port }}/actuator/health"
+        status_code: 200
+      register: result
+      until: result.status == 200
+      retries: 12
+      delay: 10

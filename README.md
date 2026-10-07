@@ -1,7 +1,7 @@
 # Volunteer Scheduling System (VSS)
 
 A web application that lets NGOs and event organisers publish volunteer shifts, lets volunteers
-register and request slots, and lets coordinators confirm or cancel requests — built and delivered
+register and request slots, and lets coordinators confirm or cancel requests ΓÇö built and delivered
 through a complete DevOps toolchain (Git/GitHub, Maven, Jenkins, Selenium, Docker, Ansible).
 
 ## Tech stack
@@ -29,3 +29,5 @@ docs/                      weekly project documentation
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the branch naming and commit rules.
+
+Coordinator: confirm or cancel requests from the dashboard.
