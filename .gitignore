@@ -1,0 +1,35 @@
+# Build output
+target/
+build/
+out/
+*.class
+*.war
+*.jar
+!.mvn/wrapper/maven-wrapper.jar
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.project
+.classpath
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs / runtime data
+*.log
+logs/
+data/
+*.mv.db
+*.trace.db
+
+# Test artefacts
+screenshots/
+
+# Secrets
+.env
+*.pem
+ansible/*.retry
