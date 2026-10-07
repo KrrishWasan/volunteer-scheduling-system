@@ -1,0 +1,16 @@
+* text=auto
+*.java text eol=crlf
+*.md text eol=crlf
+*.xml text eol=crlf
+*.properties text eol=crlf
+*.html text eol=crlf
+*.css text eol=crlf
+*.yml text eol=crlf
+*.yaml text eol=crlf
+*.ini text eol=crlf
+*.cfg text eol=crlf
+Jenkinsfile text eol=crlf
+Dockerfile text eol=crlf
+.dockerignore text eol=crlf
+*.png binary
+*.ico binary

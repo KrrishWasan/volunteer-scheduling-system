@@ -1,0 +1,8 @@
+target/
+.git/
+drivers/
+*.md
+docs/
+.github/
+ansible/
+*.retry
