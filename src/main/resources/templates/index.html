@@ -1,15 +1,40 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments :: head('Home')}"></head>
+<head th:replace="~{fragments :: head}"></head>
 <body>
 <header th:replace="~{fragments :: header}"></header>
 <main>
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
     <div class="card">
         <h1 id="page-title">Volunteer Scheduling System</h1>
-        <p>Register as a volunteer, browse open shifts, request a slot and track the status of your booking.
-            Coordinators confirm or cancel requests from the coordinator dashboard.</p>
+        <p>Register as a volunteer, browse open shifts, request a slot and track the status of your
+            booking. Coordinators confirm or cancel requests from the coordinator dashboard.</p>
+        <div class="grid">
+            <div class="card">
+                <h3>1. Register</h3>
+                <p>Create your volunteer profile once.</p>
+                <a id="link-register" class="btn" th:href="@{/register}">Register</a>
+            </div>
+            <div class="card">
+                <h3>2. View slots</h3>
+                <p>See upcoming shifts and remaining seats.</p>
+                <a id="link-slots" class="btn" th:href="@{/slots}">View slots</a>
+            </div>
+            <div class="card">
+                <h3>3. Track status</h3>
+                <p>Look up a booking by reference or e-mail.</p>
+                <a id="link-status" class="btn" th:href="@{/status}">Track booking</a>
+            </div>
+            <div class="card">
+                <h3>Coordinator</h3>
+                <p>Confirm or cancel requests, create slots.</p>
+                <a id="link-coordinator" class="btn" th:href="@{/coordinator}">Open dashboard</a>
+            </div>
+        </div>
     </div>
 </main>
 <footer th:replace="~{fragments :: footer}"></footer>
 </body>
 </html>
+

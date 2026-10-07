@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:fragment="head(title)">
+<head th:fragment="head">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title th:text="${title} + ' | Volunteer Scheduling System'">VSS</title>
+    <title>Volunteer Scheduling System</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
@@ -14,6 +14,10 @@
     </div>
     <nav>
         <a id="nav-home" th:href="@{/}">Home</a>
+        <a id="nav-register" th:href="@{/register}">Register</a>
+        <a id="nav-slots" th:href="@{/slots}">Slots</a>
+        <a id="nav-status" th:href="@{/status}">Status</a>
+        <a id="nav-coordinator" th:href="@{/coordinator}">Coordinator</a>
     </nav>
 </header>
 
@@ -23,3 +27,4 @@
 </footer>
 </body>
 </html>
+

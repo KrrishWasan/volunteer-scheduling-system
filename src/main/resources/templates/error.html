@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head}"></head>
+<body>
+<header th:replace="~{fragments :: header}"></header>
+<main>
+    <div class="card">
+        <h1 id="page-title">Something went wrong</h1>
+        <div class="alert alert-error" th:text="${error}">Error details</div>
+        <p><a class="btn" th:href="@{/}">Back to home</a></p>
+    </div>
+</main>
+<footer th:replace="~{fragments :: footer}"></footer>
+</body>
+</html>
+
