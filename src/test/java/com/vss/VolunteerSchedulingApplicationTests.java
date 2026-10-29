@@ -34,7 +34,7 @@ class VolunteerSchedulingApplicationTests {
     void versionEndpointReportsEnvironment() throws Exception {
         mockMvc.perform(get("/api/version"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.environment").value("dev"));
+                .andExpect(jsonPath("$.environment").value("test"));
     }
 
     @Test
