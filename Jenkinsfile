@@ -85,6 +85,9 @@ pipeline {
             steps {
                 // Week 12: versioned image published to Docker Hub.
                 script {
+                    bat 'whoami'
+                    bat 'docker context show'
+                    bat 'docker version'
                     def img = docker.build("${env.IMAGE_NAME}:${env.APP_VERSION}",
                         "--build-arg APP_VERSION=${env.APP_VERSION} --build-arg APP_ENV=${env.APP_ENV} .")
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
