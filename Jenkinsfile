@@ -42,7 +42,7 @@ pipeline {
                 script {
                     env.APP_VERSION = params.APP_VERSION?.trim()
                         ? params.APP_VERSION.trim()
-                        : sh(script: "mvn -q -Dexec.executable=echo help:evaluate -Dexpression=project.version -DforceStdout evaluate 2>/dev/null || echo 1.0.0",
+                        : sh(script: "mvn -q help:evaluate -Dexpression=project.version -DforceStdout",
                              returnStdout: true).trim() + "-${env.BUILD_NUMBER}"
                 }
                 echo "Building version ${env.APP_VERSION} for environment ${env.APP_ENV}"
